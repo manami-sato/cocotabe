@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="長方形_23" data-name="長方形 23" width="16" height="16" transform="translate(24 310)" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="マスクグループ_3" data-name="マスクグループ 3" transform="translate(-24 -310)" clip-path="url(#clip-path)">
+    <g id="地図マーカーのアイコン素材1" transform="translate(25.412 312)">
+      <path id="パス_5" data-name="パス 5" d="M50.113,0a4.942,4.942,0,0,0-4.941,4.941C45.172,7.67,49.056,12,50.113,12s4.941-4.33,4.941-7.059A4.941,4.941,0,0,0,50.113,0Zm0,7.209a2.268,2.268,0,1,1,2.268-2.268A2.268,2.268,0,0,1,50.113,7.209Z" transform="translate(-45.172)" fill="#afafaf"/>
+    </g>
+  </g>
+</svg>

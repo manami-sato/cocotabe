@@ -1,9 +1,5 @@
 /* eslint-disable */
 
-// module.exports = {
-//   publicPath: "./",
-// };
-
 module.exports = {
   publicPath: "./",
   pwa: {
@@ -14,7 +10,7 @@ module.exports = {
     appleMobileWebAppStatusBarStyle: "white",
     iconPaths: {
       appleTouchIcon:
-        "https://click.ecc.ac.jp/ecc/msatou/raict_app/img/app_icon_2.png",
+        "https://click.ecc.ac.jp/ecc/msatou/cocotabe/img/cocotabe_icon.png",
     },
   },
 };

@@ -1,9 +1,9 @@
 <template lang="pug">
-div.result__paging
-	div(@click="prevNum(num)", :class="{arrowDisActive:num == 0}").result__paging--arrow
+div(v-if="singleFlag").result__paging
+	div(@click="prevNum()", :class="{arrowDisActive:num == 0}").result__paging--arrow
 	ul.result__paging--num
-		li(v-for="(item, i) in pagingNum", :class="{pagingActive:i == num}", @click="selectNum(i)").result__paging--num--item {{item}}
-	div(@click="nextNum(num)", :class="{arrowDisActive:num + 1 == pagingNum}").result__paging--arrow
+		li(v-for="(item, i) in paging", :class="{pagingActive:i == num}", @click="selectNum(i)").result__paging--num--item {{item}}
+	div(@click="nextNum()", :class="{arrowDisActive:num + 1 == paging}").result__paging--arrow
 </template>
 
 <script>
@@ -13,26 +13,29 @@ import Mixin from "@/mixins/Mixin.vue";
 export default {
   name: "Paging",
   mixins: [Mixin],
-  props: ["pagingNum"],
+  props: ["pagingNum", "singleFlag"],
   data() {
     return {
       num: 0,
+      paging: 0,
     };
   },
-  mounted() {},
+  mounted() {
+    this.paging = Math.ceil(this.$shop.length / this.pagingNum);
+  },
   methods: {
     selectNum(i) {
       this.num = i;
       this.$emit("pagingSet", this.num);
     },
-    prevNum(num) {
+    prevNum() {
       this.num--;
       if (this.num < 0) {
         this.num = 0;
       }
       this.$emit("pagingSet", this.num);
     },
-    nextNum(num) {
+    nextNum() {
       this.num++;
       if (this.num == this.pagingNum) {
         this.num--;

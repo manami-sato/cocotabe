@@ -5,11 +5,11 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Result from "../views/Result.vue";
 import Shop from "../views/Shop.vue";
+import Favorite from "../views/Favorite.vue";
 
 Vue.use(VueRouter);
+// const route = "/ecc/msatou/cocotabe/";
 const route = "/";
-// const route = "/ecc/msatou/test/";
-// manami-sato.github.io/cocotabe/
 
 const routes = [
   {
@@ -23,9 +23,18 @@ const routes = [
     component: Result,
   },
   {
-    path: `${route}shop:id`,
+    path: `${route}shop/:id`,
     name: "Shop",
     component: Shop,
+    props: (route) => ({
+      id: String(route.params.id),
+      shopData: Array(route.params.shopData),
+    }),
+  },
+  {
+    path: `${route}favorite`,
+    name: "Favorite",
+    component: Favorite,
   },
 ];
 

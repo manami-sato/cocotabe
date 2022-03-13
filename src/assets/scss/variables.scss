@@ -5,4 +5,73 @@ $black: #454545;
 $gray: #afafaf;
 $lightGray: #e4e4e4;
 $white: #ffffff;
-// $font: "Montserrat Alternates", sans-serif;
+
+@mixin headSet() {
+  width: 100vw;
+  height: 80px;
+  background: $white;
+  position: fixed;
+  inset: 0 0 auto auto;
+}
+
+@mixin mainPaddingSet() {
+  padding: 96px 0 112px;
+}
+
+@mixin noHitSet() {
+  &__noHit {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 75%;
+    max-width: 400px;
+    margin: 0 auto 0 10%;
+    &--headline {
+      display: block;
+      font-size: 1.6rem;
+      font-weight: bold;
+      margin: 0 0 8px;
+    }
+    &--btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 60%;
+      min-width: 184px;
+      max-width: 240px;
+      height: 56px;
+      color: $white;
+      background: $carrot;
+      border-radius: calc(56px / 2);
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin: 32px 0 0;
+      padding: 0 10% 0 0;
+    }
+  }
+}
+
+@mixin filterSet($c: $black, $fw: bold) {
+  &--headline {
+    color: $c;
+    font-size: 1.4rem;
+    font-weight: $fw;
+    margin: auto auto 8px 0;
+  }
+  &--item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    margin: 0 0 16px;
+    label {
+      display: flex;
+      align-items: center;
+    }
+    span {
+      display: inline-block;
+      font-size: 1.4rem;
+      margin: 0 0 0 4px;
+    }
+  }
+}
