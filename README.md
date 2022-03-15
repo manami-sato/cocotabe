@@ -56,7 +56,7 @@ PHPにsimpleXMLがインストールされている。
 
 ### 不具合など
 PHPファイルを学校のサーバー（PHP Version 7.4.16）にアップロードしてお送りする予定でしたが、PHPでXML形式をJSON形式に変換するSimpleXMLをVersion 7.4.16ではサポートしていなかったため、
-ローカルサーバー（PHP Version 8.0.8）上では動作確認済みのものを提出いたします。
+ローカルサーバー（PHP Version 8.0.8）上で動作確認済みのものを提出いたします。
 
 ## node_modulsのインストール
 
@@ -89,13 +89,3 @@ npm run serve
 ```
 npm run build
 ```
-
-### Lints and fixes files
-
-```
-npm run lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
