@@ -10,6 +10,7 @@ export default {
   mixins: [Mixin],
   methods: {
     back() {
+      // 一つ前に戻る
       history.back();
     },
   },

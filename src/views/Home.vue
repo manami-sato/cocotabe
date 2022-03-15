@@ -40,6 +40,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
+      // 位置情報の取得
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           function(position) {
@@ -47,8 +48,16 @@ export default {
             this.lng = position.coords.longitude;
           }.bind(this)
         );
+      } else {
+        console.log("位置情報が取得できませんでした。");
       }
     }, 1000);
+    if (
+      !process.env.VUE_APP_APIKEY_HOTPEPPER ||
+      !process.env.VUE_APP_APIKEY_GOOGLEMAP
+    ) {
+      console.log("環境変数を確認してください。");
+    }
   },
 };
 </script>
@@ -56,6 +65,7 @@ export default {
 <style lang="scss">
 @import "@/assets/scss/common.scss";
 .index {
+  padding: 0 0 112px;
   > .form {
     transform: translateY(-24px);
   }

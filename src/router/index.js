@@ -8,7 +8,6 @@ import Shop from "../views/Shop.vue";
 import Favorite from "../views/Favorite.vue";
 
 Vue.use(VueRouter);
-// const route = "/ecc/msatou/cocotabe/";
 const route = "/";
 
 const routes = [

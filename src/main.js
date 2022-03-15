@@ -15,6 +15,34 @@ let GlobalData = new Vue({
       $loadFlag: true,
       $filterData: [],
       $filterTtl: [],
+      $strageData: [],
+      $beforeStrageDataLength: 0,
+      $postData: [
+        {
+          name: "key",
+          key: process.env.VUE_APP_APIKEY_HOTPEPPER,
+        },
+        {
+          name: "lat",
+          key: 0,
+        },
+        {
+          name: "lng",
+          key: 0,
+        },
+        {
+          name: "count",
+          key: 10,
+        },
+        {
+          name: "range",
+          key: 3,
+        },
+        {
+          name: "start",
+          key: 1,
+        },
+      ],
     };
   },
 });
@@ -49,8 +77,26 @@ Vue.mixin({
     $_filterTtl() {
       return GlobalData.$data.$filterTtl;
     },
-    $_setfilterTtl(newfilterTtl) {
-      GlobalData.$data.$filterTtl = newfilterTtl;
+    $_setfilterTtl(newFilterTtl) {
+      GlobalData.$data.$filterTtl = newFilterTtl;
+    },
+    $_strageData() {
+      return GlobalData.$data.$strageData;
+    },
+    $_setStrageData(newStrageData) {
+      GlobalData.$data.$strageData = newStrageData;
+    },
+    $_beforeStrageDataLength() {
+      return GlobalData.$data.$beforeStrageDataLength;
+    },
+    $_setBeforeStrageDataLength(newBeforeStrageDataLength) {
+      GlobalData.$data.$beforeStrageDataLength = newBeforeStrageDataLength;
+    },
+    $_postData() {
+      return GlobalData.$data.$postData;
+    },
+    $_setPostData(newPostData) {
+      GlobalData.$data.$postData = newPostData;
     },
   },
   computed: {
@@ -83,8 +129,8 @@ Vue.mixin({
       get: function() {
         return GlobalData.$data.$filterData;
       },
-      set: function(newfilter) {
-        GlobalData.$data.$filterData = newfilter;
+      set: function(newfilterData) {
+        GlobalData.$data.$filterData = newfilterData;
       },
     },
     $filterTtl: {
@@ -93,6 +139,30 @@ Vue.mixin({
       },
       set: function(newfilterTtl) {
         GlobalData.$data.$filterTtl = newfilterTtl;
+      },
+    },
+    $strageData: {
+      get: function() {
+        return GlobalData.$data.$strageData;
+      },
+      set: function(newStrageData) {
+        GlobalData.$data.$strageData = newStrageData;
+      },
+    },
+    $beforeStrageDataLength: {
+      get: function() {
+        return GlobalData.$data.$beforeStrageDataLength;
+      },
+      set: function(newBeforeStrageDataLength) {
+        GlobalData.$data.$beforeStrageDataLength = newBeforeStrageDataLength;
+      },
+    },
+    $postData: {
+      get: function() {
+        return GlobalData.$data.$postData;
+      },
+      set: function(newPostData) {
+        GlobalData.$data.$postData = newPostData;
       },
     },
   },

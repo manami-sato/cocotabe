@@ -4,16 +4,20 @@ form(:action="`${productsData}`", method="POST").form
 	section.form__filter
 		h2.form__filter--headline ここからの距離は
 		div.form__filter--item
+			input(type="hidden", name="key", v-model="$postData[0].key")
+			input(type="hidden", name="lat", v-model="$postData[1].key")
+			input(type="hidden", name="lng", v-model="$postData[2].key")
+			input(type="hidden", name="count", v-model="$postData[3].key")
 			label
-				input(type="radio", value="2", name="range", v-model="postSet[3].key")
+				input(type="radio", value="2", name="range", v-model="$postData[4].key")
 				span 近め(500m)
 			label
-				input(type="radio", value="3", name="range", v-model="postSet[3].key", checked)
+				input(type="radio", value="3", name="range", v-model="$postData[4].key", checked)
 				span 普通(1000m)
 			label
-				input(type="radio", value="5", name="range", v-model="postSet[3].key")
+				input(type="radio", value="5", name="range", v-model="$postData[4].key")
 				span 幅広く(2000m)
-		h2(@click="filterFlagAction").form__filter--headline 詳細に条件を設定
+		h2(@click="filterFlagAction", :class="!filterFlag ? 'filterBtnActive' : 'filterBtnDisActive'").form__filter--headline 詳細に条件を設定
 		div(:class="{filterDisActive:filterFlag}").form__filter--wrap
 			section(v-for="(filter, i) in filters")
 				h3.form__filter--wrap--headline {{filter.ttl}}
@@ -22,7 +26,6 @@ form(:action="`${productsData}`", method="POST").form
 						input(type="checkbox", value="1", :name="item.name", @click="filterSend(item.name, item.ttl)")
 						span {{item.ttl}}
 		button(type="submit", :class="{submitActive:lat !== 0}", @click="sendData").form__btn {{lat !== 0 ? btnTxt[1] : btnTxt[0]}}
-	//- div(:class="{submitActive:lat !== 0}", @click="sendData").form__btn {{lat !== 0 ? btnTxt[1] : btnTxt[0]}}
 </template>
 
 <script>
@@ -37,26 +40,7 @@ export default {
     return {
       res: [],
       btnTxt: ["Loading", "検索"],
-      map: "",
       formData: [],
-      postSet: [
-        {
-          name: "key",
-          key: "5dd40eab2484e976",
-        },
-        {
-          name: "lat",
-          key: "",
-        },
-        {
-          name: "lng",
-          key: "",
-        },
-        {
-          name: "range",
-          key: "3",
-        },
-      ],
       beforeFilterLength: 0,
       filterFlag: false,
       filters: [
@@ -115,13 +99,14 @@ export default {
   },
   watch: {
     lat() {
-      this.postSet[1].key = this.lat;
-      this.postSet[2].key = this.lng;
+      this.$postData[1].key = this.lat;
+      this.$postData[2].key = this.lng;
     },
   },
   mounted() {
-    // this.formData = new FormData();
-    if (this.filter) {
+    // 検索条件の初期化
+    this.formData = new FormData();
+    if (this.filters) {
       this.filterFlag = !this.filterFlag;
     }
   },
@@ -130,23 +115,24 @@ export default {
       this.filterFlag = !this.filterFlag;
     },
     sendData(e) {
-      // e.preventDefault();
-      this.formData = [];
-      for (let i = 0; i < this.postSet.length; i++) {
-        // this.formData.append(this.postSet[i].name, this.postSet[i].key);
-        this.formData.push([this.postSet[i].name, this.postSet[i].key]);
-        // console.log(this.postSet[i].name, this.postSet[i].key);
+      e.preventDefault();
+      // 検索条件を格納
+      for (let i = 0; i < this.$postData.length; i++) {
+        this.formData.append(this.$postData[i].name, this.$postData[i].key);
       }
-      // console.log(this.formData);
       for (let i = 0; i < this.$filterData.length; i++) {
-        // this.formData.append(this.$filterData[i], 1);
-        this.formData.push([this.$filterData[i], 1]);
+        this.formData.append(this.$filterData[i], 1);
       }
-      console.log(this.formData);
+      // APIを叩く
       fetch(`${this.productsData}`, {
         mode: "cors",
         method: "POST",
         body: this.formData,
+        // headers: {
+        //   "Access-Control-Allow-Origin": "*",
+        //   "Content-type": " application/json",
+        // },
+        redirect: "manual",
       })
         .then((res) => {
           return res.json();
@@ -158,9 +144,10 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      // this.$router.push({ name: "Result" });
+      this.$router.push({ path: "result" });
     },
     filterSend(checked, ttl) {
+      // filterDataの検索、削除及び設定
       this.beforeFilterLength = this.$filterData.length;
       for (let i = 0; i < this.$filterData.length; i++) {
         if (this.$filterData[i] == checked) {
@@ -194,7 +181,19 @@ export default {
       height: auto;
       opacity: 1;
       transition: height 0.2s, opacity 0.2s;
-      @include filterSet($c: darken($color: $gray, $amount: 10%), $fw: normal);
+      @include filterSet();
+      &--headline {
+        color: darken($color: $gray, $amount: 10%);
+        font-size: 1.4rem;
+        font-weight: normal;
+        margin: auto auto 8px 0;
+      }
+    }
+    &--headline {
+      color: $black;
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin: auto auto 8px 0;
     }
   }
   &__headline {
@@ -225,5 +224,14 @@ export default {
   height: 0;
   opacity: 0;
   pointer-events: none;
+}
+.filterBtnDisActive {
+  @include filterBtnSet();
+}
+.filterBtnActive {
+  @include filterBtnSet(
+    $beforeRotate: rotateZ(45deg),
+    $afterRotate: rotateZ(-45deg)
+  );
 }
 </style>

@@ -2,11 +2,9 @@
 main.shop
 	Head(:name="data.name", :backFlag="true")
 	div.shop__headline
-		Map(:lat="lat", :lng="lng")
 		div.shop__headline--info
 			div.shop__headline--info--img
 				img(:src="data.logo_image")
-			//- p {{data.genre.name}}
 			h2.shop__headline--info--name {{data.name}}
 	section.shop__detail
 		h3.shop__detail--headline 店舗情報
@@ -26,9 +24,6 @@ main.shop
 	section.shop__detail
 		h3.shop__detail--headline 詳細情報
 		table.shop__detail--data
-			//- tr(v-for="(item, i) in detail", :key="i")
-			//- 	th {{item.ttl}}
-			//- 	td(v-html="item.data")
 			tr
 				th Wi-Fi設備
 				td {{data.wifi}}
@@ -68,8 +63,6 @@ main.shop
 				g
 					path(d="M94.811,21.696c-35.18,22.816-42.091,94.135-28.809,152.262c10.344,45.266,32.336,105.987,69.42,163.165\c34.886,53.79,83.557,102.022,120.669,129.928c47.657,35.832,115.594,58.608,150.774,35.792\c17.789-11.537,44.218-43.058,45.424-48.714c0,0-15.498-23.896-18.899-29.14l-51.972-80.135\c-3.862-5.955-28.082-0.512-40.386,6.457c-16.597,9.404-31.882,34.636-31.882,34.636c-11.38,6.575-20.912,0.024-40.828-9.142\c-24.477-11.262-51.997-46.254-73.9-77.947c-20.005-32.923-40.732-72.322-41.032-99.264c-0.247-21.922-2.341-33.296,8.304-41.006\c0,0,29.272-3.666,44.627-14.984c11.381-8.392,26.228-28.286,22.366-34.242l-51.972-80.134c-3.401-5.244-18.899-29.14-18.899-29.14\C152.159-1.117,112.6,10.159,94.811,21.696z")
 			span 電話する
-		//- a(:href="`tel:`").shop__contact--tel
-			span 電話する
 		a(:href="`http://maps.apple.com/?q=${data.lat},${data.lng}`").shop__contact--map 地図アプリを開く
 </template>
 
@@ -77,7 +70,6 @@ main.shop
 /* eslint-disable */
 import Mixin from "@/mixins/Mixin.vue";
 import Head from "@/components/Head.vue";
-import Map from "@/components/Map.vue";
 import FavoriteBtn from "@/components/FavoriteBtn.vue";
 
 export default {
@@ -85,7 +77,6 @@ export default {
   mixins: [Mixin],
   components: {
     Head,
-    Map,
     FavoriteBtn,
   },
   props: { id: String, shopData: Array },
@@ -151,16 +142,14 @@ export default {
           data: "shopData.midnight_meal",
         },
       ],
-      count: 0,
-      lat: 0,
-      lng: 0,
     };
   },
   mounted() {
-    this.data = this.$route.params.shopData;
-    this.shopId = this.$route.params.id;
-    this.lat = this.data.lat;
-    this.lng = this.data.lng;
+    // propsを変数に格納
+    if (this.$route.params.id) {
+      this.shopId = this.$route.params.id;
+      this.data = this.$route.params.shopData;
+    }
   },
 };
 </script>
@@ -168,7 +157,7 @@ export default {
 <style lang="scss">
 @import "@/assets/scss/common.scss";
 .shop {
-  padding: 0 0 96px;
+  @include mainPaddingSet();
   &__headline {
     display: flex;
     justify-content: center;
@@ -176,7 +165,7 @@ export default {
     flex-direction: column;
     &--info {
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       gap: 5%;
       width: 90vw;
       &--img {
@@ -241,9 +230,6 @@ export default {
         width: 28px;
         height: 28px;
         margin: 4px 0;
-      }
-      path {
-        fill: $gray;
       }
       span {
         font-size: 1rem;

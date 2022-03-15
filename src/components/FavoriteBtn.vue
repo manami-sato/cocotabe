@@ -7,7 +7,6 @@ svg(@click="favoriteSet()", version="1.1", xmlns="http://www.w3.org/2000/svg", x
 <script>
 /* eslint-disable */
 import Mixin from "@/mixins/Mixin.vue";
-import common from "@/assets/js/common.js";
 
 export default {
   name: "FavoriteBtn",
@@ -22,36 +21,71 @@ export default {
       ],
     };
   },
+  watch: {
+    $shop(n) {
+      this.favoriteLoad();
+    },
+    shopId(newVal, oldVal) {
+      if (oldVal == "") {
+        this.shopId = this.$route.params.id;
+      }
+      this.favoriteLoad();
+    },
+  },
   methods: {
+    favoriteLoad() {
+      for (let i = 0; i < this.$strageData.length; i++) {
+        // お気に入りのIDとこのdataのIDで一致するか確認
+        if (this.shopId == this.$strageData[i].id) {
+          // 一致すれば色をつける
+          this.favFlag = true;
+          break;
+        } else {
+          // 不一致であればつけない
+          this.favFlag = false;
+        }
+      }
+    },
     favoriteSet() {
-      if (common.strageData) {
-        common.beforeStrageDataLength = common.strageData.length;
-        for (let i = 0; i < common.strageData.length; i++) {
-          if (common.strageData[i].id == this.shopId) {
-            common.strageData.splice(i, 1);
+      if (this.$strageData) {
+        // お気に入りの数を一旦格納
+        this.$beforeStrageDataLength = this.$strageData.length;
+        for (let i = 0; i < this.$strageData.length; i++) {
+          // お気に入りのIDとこのdataのIDで一致するか確認
+          if (this.$strageData[i].id == this.shopId) {
+            // 一致すれば削除
+            this.$strageData.splice(i, 1);
             this.favFlag = false;
           }
         }
-        if (common.strageData.length == common.beforeStrageDataLength) {
-          common.strageData.push(this.data);
+        // お気に入りの数が変わらない→
+        // お気に入りのIDとこのdataのIDが全て不一致→
+        // 新規お気に入り店舗
+        if (this.$strageData.length == this.$beforeStrageDataLength) {
+          // 追加する
+          this.$strageData.push(this.data);
+          // 色を消す
           this.favFlag = true;
         }
       } else {
-        common.strageData.push(this.data);
+        // お気に入りが初めから空
+        // 追加する
+        this.$strageData.push(this.data);
+        // 色をつける
         this.favFlag = true;
       }
+      // localstrageから古いデータを削除
       localStorage.removeItem("favorite");
-      localStorage.setItem("favorite", JSON.stringify(common.strageData));
+      // localstrageに新しいデータを戻す
+      localStorage.setItem("favorite", JSON.stringify(this.$strageData));
     },
   },
   mounted() {
+    // localstrageからデータを取得
     if (JSON.parse(localStorage.getItem("favorite"))) {
-      common.strageData = JSON.parse(localStorage.getItem("favorite"));
-      for (let i = 0; i < common.strageData.length; i++) {
-        if (this.shopId == common.strageData[i].id) {
-          this.favFlag = true;
-        }
-      }
+      // グローバル変数に格納し以後使用
+      this.$strageData = JSON.parse(localStorage.getItem("favorite"));
+      this.favoriteLoad();
     }
   },
 };

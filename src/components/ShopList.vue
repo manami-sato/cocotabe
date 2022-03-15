@@ -1,5 +1,5 @@
 <template lang="pug">
-article(v-show="(display + 1) * num > index && display * num <= index || singleFlag == true").shopList
+article.shopList
 	div(@click="watchShop()").shopList__wrap
 		div.shopList__wrap--img
 			img(:src="`${data.photo.pc.l}`")
@@ -24,6 +24,13 @@ article(v-show="(display + 1) * num > index && display * num <= index || singleF
 							path(d="M58.182,0H55.566L53.317,4.109,51.069,0H48.453l2.639,4.822H48.841V6.649h3.093V7.839H48.841V9.666h3.093V12H54.7V9.666h3.093V7.839H54.7V6.649h3.093V4.822h-2.25Z")
 				p {{data.budget.average}}
 			div(v-if="typeof data.open == 'string'").shopList__wrap--info--data
+				svg(xmlns="http://www.w3.org/2000/svg", width="16", height="16", viewBox="0 0 16 16")
+					g(transform="translate(-620 -66)")
+						rect(width="16", height="16", transform="translate(620 66)", fill="none")
+						g(transform="translate(612.927 68)")
+							path(d="M120.9,2.436a.682.682,0,0,0,.681-.682V.681a.682.682,0,0,0-1.363,0V1.754A.682.682,0,0,0,120.9,2.436Z", transform="translate(-110.411)", fill="#4b4b4b")
+							path(d="M334.524,2.436a.682.682,0,0,0,.681-.682V.681a.682.682,0,0,0-1.363,0V1.754A.682.682,0,0,0,334.524,2.436Z", transform="translate(-318.868)", fill="#4b4b4b")
+							path(d="M17.391,41.287h-.432v.8a1.312,1.312,0,1,1-2.624,0v-.8H11.81v.8a1.312,1.312,0,1,1-2.624,0v-.8H8.755a1.683,1.683,0,0,0-1.682,1.685v8a1.683,1.683,0,0,0,1.682,1.685h8.637a1.683,1.683,0,0,0,1.682-1.685v-8A1.683,1.683,0,0,0,17.391,41.287Zm.358,9.389a.781.781,0,0,1-.779.781H9.176a.781.781,0,0,1-.779-.781V44.417H17.75Z", transform="translate(0 -40.316)", fill="#4b4b4b")
 				p {{data.open}}
 	FavoriteBtn(:data="data", :shopId="data.id")
 </template>
@@ -39,7 +46,7 @@ export default {
   components: {
     FavoriteBtn,
   },
-  props: ["data", "index", "display", "num", "singleFlag"],
+  props: ["data", "num"],
   methods: {
     watchShop() {
       this.$router.push({
@@ -100,6 +107,10 @@ export default {
         display: flex;
         font-size: 1rem;
         margin: 0 auto;
+        svg {
+          width: 16px;
+          height: 16px;
+        }
         p {
           width: calc(100% - 16px);
           white-space: nowrap;

@@ -9,10 +9,10 @@
 現在地周辺のお店探しに特化したアプリ
 
 #### こだわったポイント
-調べてすぐに向かうUXを想定し、地図の表示のしやすさや電話のしやすさ（APIに電話番号がなかったので発信はできません）を目標にしました。
+調べてすぐに向かうUXを想定し、地図の表示を通じて場所の認識のしやすさや、電話のしやすさ（APIに電話番号がなかったので発信はできません）を目標にしました。
 
 ### 公開したアプリのURL
-https://click.ecc.ac.jp/ecc/msatou/cocotabe/
+なし
 
 ### 該当プロジェクトのリポジトリURL
 https://github.com/manami-sato/cocotabe
@@ -27,9 +27,11 @@ JavaScript
 ## 動作対象端末・OS
 ### 動作対応OS
 iOS
+### 動作環境
+PHPにsimpleXMLがインストールされている。
 
 ## 開発期間
-日間
+15日間
 
 ## アプリケーション機能
 
@@ -51,20 +53,37 @@ iOS
 
 ### アドバイスしていただきたいポイント
 
+### 不具合など
+PHPファイルを学校のサーバー（PHP Version 7.4.16）にアップロードしてお送りする予定でしたが、PHPでXML形式をJSON形式に変換するSimpleXMLをVersion 7.4.16ではサポートしていませんでしたので、検索及び検索結果の表示ができない状態です。
+ローカルサーバー（PHP Version 8.0.8）上では動作確認済みです。
 
-## Project setup
+## node_modulsのインストール
 
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### .envに環境変数の作成
+
+```
+VUE_APP_APIKEY_HOTPEPPER=ホットペッパーグルメサーチAPIのAPI Key
+VUE_APP_APIKEY_GOOGLEMAP=Google Maps PlatformのAPI Key
+```
+
+### PHPの読み込み
+
+```
+src/assets/php/cocotabe.phpを
+src/assets/mixins/Mixin.vueのproductsDataに入れる
+```
+
+### ローカルサーバーを立てる
 
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### buildする
 
 ```
 npm run build

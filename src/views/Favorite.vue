@@ -1,7 +1,7 @@
 <template lang="pug">
 main(:class="{favHit:favList.length > 0}").favorite
 	Head(name="お気に入り", :backFlag="false")
-	ShopList(v-for="(item, i) in favList", :data="item", :index="i", :display="getPagingNum", :num="num", :key="i", @watchShop="getShopNum = $event")
+	ShopList(v-for="(item, i) in favList", :data="item", :num="num", :key="i")
 	p(v-if="favList.length == 0", :style="{height:innerH + 'px'}").result__noHit
 		span.favorite__noHit--headline お気に入り登録したお店がありません。
 		span.favorite__noHit--txt 検索して、気になるお店を探してみましょう。
@@ -34,7 +34,10 @@ export default {
     };
   },
   mounted() {
-    this.favList = JSON.parse(localStorage.getItem("favorite"));
+    // localStrageにfavoriteがあるとき配列を上書き
+    if (JSON.parse(localStorage.getItem("favorite"))) {
+      this.favList = JSON.parse(localStorage.getItem("favorite"));
+    }
   },
 };
 </script>

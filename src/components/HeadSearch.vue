@@ -31,6 +31,7 @@ export default {
   },
   mounted() {
     if (!this.phFlag) {
+      // テキストの一致を判定し、検索ワードを検索窓に表示
       if (this.$filterTtl == "") {
         this.phTxt = this.filterPh;
       } else {

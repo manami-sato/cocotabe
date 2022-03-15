@@ -5,13 +5,16 @@ main(:class="{resultHit:$shopLength > 0}").result
 	transition(name="resultFadeIn")
 		section(v-if="resultLoadFlag")
 			h1(v-if="resultFlag").result__hit 全
-				span.result__hit--length {{$shop.length}}
-				|件ヒットしました。
+				span.result__hit--length {{$shopLength}}
+				|件中
+				span.result__hit--length {{displayNum}}
+				|件以降を表示しています
 			div(v-else, :style="{height:innerH + 'px'}").result__noHit
 				h1.result__noHit--headline ごめんなさい、お店がヒットしないようです。
 				span.result__noHit--txt 検索条件を減らしたり、検索範囲を広げると見つかるかもしれません。
-			ShopList(v-if="$shopLength > 1", v-for="(item, i) in $shop", :data="item", :index="i", :display="getPagingNum", :num="num", :key="i", @watchShop="getShopNum = $event")
-			Paging(:pagingNum="num", @pagingSet="getPagingNum = $event", :singleFlag="$shopLength > num")
+			ShopList(v-if="$shopLength > 1", v-for="(item, i) in $shop", :data="item", :num="num", :key="i")
+			ShopList(v-if="$shopLength == 1", :data="$shop", :num="num")
+			Paging(:pagingNum="num", :pageId="pageId", @pageNum="getPageNum = $event")
 	Navigation(active="Home")
 	Search(v-if="getSearchFlag", @getSearchFlag="getSearchFlag = $event")
 </template>
@@ -40,13 +43,19 @@ export default {
   data() {
     return {
       num: 10,
-      getPagingNum: 0,
-      getShopNum: 999,
+      getPageNum: 0,
+      displayNum: 1,
+      pageId: 0,
       resultFlag: "",
       resultLoadFlag: false,
       searchFlag: false,
       getSearchFlag: false,
     };
+  },
+  watch: {
+    getPageNum(n) {
+      this.displayNum = n * 10 + 1;
+    },
   },
   mounted() {
     setTimeout(() => {

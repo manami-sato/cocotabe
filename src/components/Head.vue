@@ -16,9 +16,6 @@ export default {
     Back,
   },
   props: ["name", "backFlag"],
-  data() {
-    return {};
-  },
 };
 </script>
 

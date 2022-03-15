@@ -1,5 +1,5 @@
 <template lang="pug">
-div(v-if="singleFlag").result__paging
+div.result__paging
 	div(@click="prevNum()", :class="{arrowDisActive:num == 0}").result__paging--arrow
 	ul.result__paging--num
 		li(v-for="(item, i) in paging", :class="{pagingActive:i == num}", @click="selectNum(i)").result__paging--num--item {{item}}
@@ -13,34 +13,68 @@ import Mixin from "@/mixins/Mixin.vue";
 export default {
   name: "Paging",
   mixins: [Mixin],
-  props: ["pagingNum", "singleFlag"],
+  props: ["pagingNum"],
   data() {
     return {
       num: 0,
       paging: 0,
+      formData: [],
     };
   },
   mounted() {
-    this.paging = Math.ceil(this.$shop.length / this.pagingNum);
+    // ページングが何回必要か算出
+    this.paging = Math.ceil(this.$shopLength / this.pagingNum);
   },
   methods: {
     selectNum(i) {
+      // 数字を押した
       this.num = i;
-      this.$emit("pagingSet", this.num);
+      this.dataSet();
     },
     prevNum() {
-      this.num--;
-      if (this.num < 0) {
-        this.num = 0;
+      // 戻るを押した
+      if (this.num !== 0) {
+        this.num--;
+        this.dataSet();
       }
-      this.$emit("pagingSet", this.num);
     },
     nextNum() {
-      this.num++;
-      if (this.num == this.pagingNum) {
-        this.num--;
+      // 進むを押した
+      if (this.num + 1 !== this.pagingNum) {
+        this.num++;
+        this.dataSet();
       }
-      this.$emit("pagingSet", this.num);
+    },
+    dataSet() {
+      // 検索条件の初期化
+      this.formData = new FormData();
+      // startのみ上書き
+      this.$postData[5].key = this.pagingNum * this.num + 1;
+      // 検索条件を格納し直す
+      for (let i = 0; i < this.$postData.length; i++) {
+        this.formData.append(this.$postData[i].name, this.$postData[i].key);
+      }
+      for (let i = 0; i < this.$filterData.length; i++) {
+        this.formData.append(this.$filterData[i], 1);
+      }
+      // APIを叩く
+      fetch(`${this.productsData}`, {
+        mode: "cors",
+        method: "POST",
+        body: this.formData,
+        redirect: "manual",
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((json) => {
+          this.$_setShop(json.shop);
+          this.$_setShopLength(json.results_available);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      this.$emit("pageNum", this.num);
     },
   },
 };

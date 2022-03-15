@@ -24,16 +24,20 @@ export default {
   },
   mounted() {
     if (navigator.geolocation) {
+      // 位置情報の取得
       navigator.geolocation.getCurrentPosition(
         function(position) {
           this.lat = position.coords.latitude;
           this.lng = position.coords.longitude;
         }.bind(this)
       );
+    } else {
+      console.log("位置情報が取得できませんでした。");
     }
   },
   methods: {
     searchFlag() {
+      // Searchコンポーネントの表示非表示を切り替え
       this.$emit("getSearchFlag", false);
     },
   },
@@ -43,7 +47,7 @@ export default {
 <style lang="scss">
 @import "@/assets/scss/common.scss";
 .search {
-	padding: 64px 0 0 ;
+  padding: 64px 0 0;
   width: 100vw;
   background: $white;
   position: fixed;

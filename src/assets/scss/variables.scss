@@ -52,13 +52,7 @@ $white: #ffffff;
   }
 }
 
-@mixin filterSet($c: $black, $fw: bold) {
-  &--headline {
-    color: $c;
-    font-size: 1.4rem;
-    font-weight: $fw;
-    margin: auto auto 8px 0;
-  }
+@mixin filterSet() {
   &--item {
     display: flex;
     flex-wrap: wrap;
@@ -73,5 +67,32 @@ $white: #ffffff;
       font-size: 1.4rem;
       margin: 0 0 0 4px;
     }
+  }
+}
+
+@mixin filterBtnSet(
+  $beforeRotate: rotateZ(-45deg),
+  $afterRotate: rotateZ(45deg)
+) {
+  display: flex;
+  margin: 0 14px 0 0;
+  position: relative;
+  &::before,
+  &::after {
+    content: "";
+    display: block;
+    width: 4px;
+    height: 12px;
+    background: $carrot;
+    margin: auto;
+    position: absolute;
+  }
+  &::before {
+    transform: $beforeRotate;
+    inset: 0 6px 0 auto;
+  }
+  &::after {
+    transform: $afterRotate;
+    inset: 0 0 0 auto;
   }
 }

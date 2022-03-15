@@ -4,8 +4,6 @@ nav.nav
 		li(v-for="(item, i) in navLink", :key="item.id", :class="{navActive:active == item.to}")
 			router-link(:to="{name:`${item.to}`}").nav__list--item
 				svg(version="1.1", xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", viewBox="0 0 512 512", xml:space="preserve")
-					//- g(v-if="active == item.to", v-html="item.onIcon")
-					//- g(v-else, v-html="item.icon")
 					g(v-html="item.icon")
 				p.nav__list--item--txt {{item.ttl}}
 		li(v-for="(item, i) in navItem", :key="item.id").nav__list--item
@@ -58,7 +56,6 @@ export default {
       ],
     };
   },
-  mounted() {},
 };
 </script>
 
