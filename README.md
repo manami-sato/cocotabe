@@ -57,6 +57,7 @@ PHPにsimpleXMLがインストールされている。
 ### 不具合など
 PHPファイルを学校のサーバー（PHP Version 7.4.16）にアップロードしてお送りする予定でしたが、PHPでXML形式をJSON形式に変換するSimpleXMLをVersion 7.4.16ではサポートしていなかったため、
 ローカルサーバー（PHP Version 8.0.8）上で動作確認済みのものを提出いたします。
+また、Google Maps Platformはローカルサーバーでは動作していません（本番環境で動作確認済みです）。
 
 ## node_modulsのインストール
 
