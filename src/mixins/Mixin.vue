@@ -4,8 +4,8 @@ export default {
   data() {
     return {
       imgPath: "https://click.ecc.ac.jp/ecc/msatou/cocotabe/img/",
-      // productsData: "",
-      productsData: "http://localhost:8888/cocotabe.php",
+      productsData: "",
+      // productsData: "http://localhost:8888/cocotabe.php",
       innerH: 0,
     };
   },
